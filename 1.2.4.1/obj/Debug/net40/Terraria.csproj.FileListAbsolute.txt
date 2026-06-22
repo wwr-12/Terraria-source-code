@@ -1,0 +1,13 @@
+C:\Users\Administrator\Desktop\fby\qq\obj\Debug\net40\Terraria.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\fby\qq\obj\Debug\net40\Terraria.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\fby\qq\obj\Debug\net40\Terraria.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Terraria.exe.config
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Terraria.exe
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Terraria.pdb
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Microsoft.Xna.Framework.dll
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Microsoft.Xna.Framework.Game.dll
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\Administrator\Desktop\fby\qq\bin\Debug\net40\Microsoft.Xna.Framework.Xact.dll
+C:\Users\Administrator\Desktop\fby\qq\obj\Debug\net40\Terraria.csproj.Up2Date
+C:\Users\Administrator\Desktop\fby\qq\obj\Debug\net40\Terraria.exe
+C:\Users\Administrator\Desktop\fby\qq\obj\Debug\net40\Terraria.pdb
