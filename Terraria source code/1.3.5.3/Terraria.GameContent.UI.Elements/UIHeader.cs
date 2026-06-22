@@ -1,0 +1,49 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
+using Terraria.UI;
+
+namespace Terraria.GameContent.UI.Elements
+{
+	public class UIHeader : UIElement
+	{
+		private string _text;
+
+		public string Text
+		{
+			get
+			{
+				return _text;
+			}
+			set
+			{
+				if (_text != value)
+				{
+					_text = value;
+					Vector2 vector = Main.fontDeathText.MeasureString(Text);
+					Width.Pixels = vector.X;
+					Height.Pixels = vector.Y;
+					Width.Precent = 0f;
+					Height.Precent = 0f;
+					Recalculate();
+				}
+			}
+		}
+
+		public UIHeader()
+		{
+			Text = "";
+		}
+
+		public UIHeader(string text)
+		{
+			Text = text;
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			CalculatedStyle dimensions = GetDimensions();
+			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, Main.fontDeathText, Text, new Vector2(dimensions.X, dimensions.Y), Color.White);
+		}
+	}
+}

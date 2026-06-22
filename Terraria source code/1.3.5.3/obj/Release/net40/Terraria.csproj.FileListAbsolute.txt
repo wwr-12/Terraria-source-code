@@ -1,0 +1,17 @@
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.exe.config
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.exe
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.pdb
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Microsoft.Xna.Framework.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Microsoft.Xna.Framework.Game.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Microsoft.Xna.Framework.Xact.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.Libraries.DotNetZip.Ionic.Zip.CF.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.Libraries.JSON.NET.Newtonsoft.Json.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.Libraries.ReLogic.ReLogic.dll
+C:\Users\Administrator\Desktop\fby\tlry\bin\Release\net40\Terraria.Libraries.Steamworks.NET.Windows.Steamworks.NET.dll
+C:\Users\Administrator\Desktop\fby\tlry\obj\Release\net40\Terraria.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\fby\tlry\obj\Release\net40\Terraria.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\fby\tlry\obj\Release\net40\Terraria.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fby\tlry\obj\Release\net40\Terraria.csproj.Up2Date
+C:\Users\Administrator\Desktop\fby\tlry\obj\Release\net40\Terraria.exe
+C:\Users\Administrator\Desktop\fby\tlry\obj\Release\net40\Terraria.pdb

@@ -1,0 +1,11 @@
+2026/6/22 21:30:32
+System.DllNotFoundException: 无法加载 DLL“ReLogic.Native.dll”: 找不到指定的模块。 (异常来自 HRESULT:0x8007007E)。
+   在 ReLogic.Localization.IME.Windows.ImeUi.Initialize(IntPtr hWnd, Boolean bDisabled)
+   在 ReLogic.Localization.IME.WindowsIme..ctor(WindowsMessageHook wndProcHook, IntPtr windowHandle)
+   在 ReLogic.OS.WindowsPlatform.CreateIme(IntPtr windowHandle)
+   在 ReLogic.OS.Platform.InitializeIme(IntPtr windowHandle)
+   在 Terraria.Main.ClientInitialize()
+   在 Terraria.Main.Initialize()
+   在 Microsoft.Xna.Framework.Game.RunGame(Boolean useBlockingRun)
+   在 Terraria.Program.LaunchGame(String[] args, Boolean monoArgs)
+
