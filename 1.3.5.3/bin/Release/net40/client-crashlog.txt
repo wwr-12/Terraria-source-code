@@ -9,3 +9,23 @@ System.DllNotFoundException: 无法加载 DLL“ReLogic.Native.dll”: 找不到
    在 Microsoft.Xna.Framework.Game.RunGame(Boolean useBlockingRun)
    在 Terraria.Program.LaunchGame(String[] args, Boolean monoArgs)
 
+2026/6/23 8:35:49
+System.OutOfMemoryException: 引发类型为“System.OutOfMemoryException”的异常。
+   在 Terraria.Main.DrawMenu(GameTime gameTime)
+   在 Terraria.Main.DoDraw(GameTime gameTime)
+   在 Terraria.Main.Draw(GameTime gameTime)
+   在 Microsoft.Xna.Framework.Game.DrawFrame()
+   在 Microsoft.Xna.Framework.Game.Tick()
+   在 Microsoft.Xna.Framework.Game.HostIdle(Object sender, EventArgs e)
+   在 Microsoft.Xna.Framework.GameHost.OnIdle()
+   在 Microsoft.Xna.Framework.WindowsGameHost.RunOneFrame()
+   在 Microsoft.Xna.Framework.WindowsGameHost.ApplicationIdle(Object sender, EventArgs e)
+   在 System.Windows.Forms.Application.ThreadContext.System.Windows.Forms.UnsafeNativeMethods.IMsoComponent.FDoIdle(Int32 grfidlef)
+   在 System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.Run(Form mainForm)
+   在 Microsoft.Xna.Framework.WindowsGameHost.Run()
+   在 Microsoft.Xna.Framework.Game.RunGame(Boolean useBlockingRun)
+   在 Terraria.Program.LaunchGame(String[] args, Boolean monoArgs)
+
