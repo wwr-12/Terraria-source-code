@@ -39,7 +39,7 @@ public static class AssetInitializer
 		AssetReaderCollection val = new AssetReaderCollection();
 		val.RegisterReader((IAssetReader)new PngReader(XnaExtensions.Get<IGraphicsDeviceService>((IServiceProvider)services).GraphicsDevice), new string[1] { ".png" });
 		val.RegisterReader((IAssetReader)new XnbReader((IServiceProvider)services), new string[1] { ".xnb" });
-		val.RegisterReader((IAssetReader)(object)new FxReader(XnaExtensions.Get<IGraphicsDeviceService>((IServiceProvider)services).GraphicsDevice), new string[1] { ".fx" });
+		// val.RegisterReader((IAssetReader)(object)new FxReader(XnaExtensions.Get<IGraphicsDeviceService>((IServiceProvider)services).GraphicsDevice), new string[1] { ".fx" }); // FxReader disabled - requires Content.Pipeline which is not available
 		AsyncAssetLoader val2 = new AsyncAssetLoader(val, 20);
 		val2.RequireTypeCreationOnTransfer(typeof(Texture2D));
 		val2.RequireTypeCreationOnTransfer(typeof(DynamicSpriteFont));

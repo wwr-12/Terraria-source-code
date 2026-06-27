@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dU1FwDn2GhU=",
+  "dgSpecHash": "rjRiysUs1BA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrator\\Desktop\\fby\\qq\\Terraria.csproj",
+  "projectFilePath": "C:\\Users\\Administrator\\Desktop\\fby\\tl1\\1.2.4.1\\Terraria.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.3\\microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net40\\1.0.3\\microsoft.netframework.referenceassemblies.net40.1.0.3.nupkg.sha512"

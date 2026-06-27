@@ -30,8 +30,6 @@
     <None Remove="Terraria.Libraries.NVorbis.NVorbis.dll" />
     <None Remove="Terraria.Libraries.NVorbis.System.ValueTuple.dll" />
     <None Remove="Terraria.Libraries.MP3Sharp.MP3Sharp.dll" />
-    <None Remove="Terraria.Libraries.Steamworks.NET.Windows.Steamworks.NET.dll" />
-    <None Remove="Terraria.Libraries.RailSDK.Windows.RailSDK.Net.dll" />
     <None Remove="Terraria.Libraries.SteelSeries.SteelSeriesEngineWrapper.dll" />
     <None Remove="Terraria.Localization.Content.de-DE.json" />
     <None Remove="Terraria.Localization.Content.de-DE.Town.json" />
@@ -130,8 +128,6 @@
     <EmbeddedResource Include="Terraria.Libraries.NVorbis.NVorbis.dll" LogicalName="Terraria.Libraries.NVorbis.NVorbis.dll" />
     <EmbeddedResource Include="Terraria.Libraries.NVorbis.System.ValueTuple.dll" LogicalName="Terraria.Libraries.NVorbis.System.ValueTuple.dll" />
     <EmbeddedResource Include="Terraria.Libraries.MP3Sharp.MP3Sharp.dll" LogicalName="Terraria.Libraries.MP3Sharp.MP3Sharp.dll" />
-    <EmbeddedResource Include="Terraria.Libraries.Steamworks.NET.Windows.Steamworks.NET.dll" LogicalName="Terraria.Libraries.Steamworks.NET.Windows.Steamworks.NET.dll" />
-    <EmbeddedResource Include="Terraria.Libraries.RailSDK.Windows.RailSDK.Net.dll" LogicalName="Terraria.Libraries.RailSDK.Windows.RailSDK.Net.dll" />
     <EmbeddedResource Include="Terraria.Libraries.SteelSeries.SteelSeriesEngineWrapper.dll" LogicalName="Terraria.Libraries.SteelSeries.SteelSeriesEngineWrapper.dll" />
     <EmbeddedResource Include="Terraria.Localization.Content.de-DE.json" LogicalName="Terraria.Localization.Content.de-DE.json" />
     <EmbeddedResource Include="Terraria.Localization.Content.de-DE.Town.json" LogicalName="Terraria.Localization.Content.de-DE.Town.json" />
@@ -252,20 +248,8 @@
       <HintPath>Terraria.Libraries.SteelSeries.SteelSeriesEngineWrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline">
-      <HintPath>..\..\..\..\..\GOG Games\Terraria\Microsoft.Xna.Framework.Content.Pipeline.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="RailSDK.Net">
-      <HintPath>Terraria.Libraries.RailSDK.Windows.RailSDK.Net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="WindowsBase" />
-    <Reference Include="Steamworks.NET">
-      <HintPath>Terraria.Libraries.Steamworks.NET.Windows.Steamworks.NET.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="CsvHelper">
       <HintPath>Terraria.Libraries.CsvHelper.CsvHelper.dll</HintPath>
       <Private>false</Private>
@@ -283,10 +267,18 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Terraria.Testing\FxReader.cs" />
+    <Compile Remove="Terraria.Social.Steam\**" />
+    <Compile Remove="Terraria.Social.WeGame\**" />
+    <Compile Remove="Terraria.Net\SteamAddress.cs" />
+    <Compile Remove="Terraria.Net\WeGameAddress.cs" />
+  </ItemGroup>
   <Target Name="SetLargeAddressAware" AfterTargets="AfterBuild">
     <Exec Command="python -c &quot;import struct; exe=r'$(TargetPath)'; d=bytearray(open(exe,'rb').read()); o=struct.unpack_from('&lt;I',d,0x3C)[0]; struct.pack_into('&lt;H',d,o+22,struct.unpack_from('&lt;H',d,o+22)[0]|0x0020); open(exe,'wb').write(d); print('LARGEADDRESSAWARE OK')&quot;" />
     <Copy SourceFiles="C:\GOG Games\Terraria\ReLogic.Native.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="C:\GOG Games\Terraria\nfd.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="C:\Libraries\Native\Windows\nfd.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Exec Command="robocopy &quot;C:\GOG Games\Terraria\Content&quot; &quot;$(TargetDir)Content&quot; /E /XO /NJH /NJS /NFL /NDL /R:0 /W:0" ContinueOnError="true" />
     <RemoveDir Directories="$(TargetDir)de-DE;$(TargetDir)es-ES;$(TargetDir)fr-FR;$(TargetDir)it-IT;$(TargetDir)ja-JP;$(TargetDir)ko-KR;$(TargetDir)pl-PL;$(TargetDir)pt-BR;$(TargetDir)ru-RU;$(TargetDir)zh-Hans;$(TargetDir)zh-Hant" />
   </Target>
 </Project>

@@ -8,8 +8,14 @@ namespace Terraria
 	{
 		private static void Main(string[] args)
 		{
+			TempRealtimeLogger.Info("Program.Main", "BEGIN args=[" + string.Join(", ", args) + "]");
+			AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs e)
+			{
+				TempRealtimeLogger.Error("AppDomain.UnhandledException", e.ExceptionObject as Exception);
+			};
 			using (Main main = new Main())
 			{
+				TempRealtimeLogger.Info("Program.Main", "Main constructed");
 				try
 				{
 					for (int i = 0; i < args.Length; i++)
@@ -55,17 +61,22 @@ namespace Terraria
 						}
 					}
 					Steam.Init();
+					TempRealtimeLogger.Info("Program.Main", "After Steam.Init SteamInit=" + Steam.SteamInit);
 					if (Steam.SteamInit)
 					{
+						TempRealtimeLogger.Info("Program.Main", "Before main.Run");
 						main.Run();
+						TempRealtimeLogger.Info("Program.Main", "After main.Run");
 					}
 					else
 					{
+						TempRealtimeLogger.Info("Program.Main", "Steam not initialized, showing error");
 						MessageBox.Show("Please launch the game from your Steam client.", "Error");
 					}
 				}
 				catch (Exception ex)
 				{
+					TempRealtimeLogger.Error("Program.Main", ex);
 					try
 					{
 						using (StreamWriter streamWriter = new StreamWriter("client-crashlog.txt", true))
@@ -81,6 +92,7 @@ namespace Terraria
 					}
 				}
 			}
+			TempRealtimeLogger.Info("Program.Main", "END");
 		}
 	}
 }

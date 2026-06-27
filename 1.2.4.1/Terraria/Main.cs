@@ -3885,8 +3885,10 @@ namespace Terraria
 
 		public Main()
 		{
+			TempRealtimeLogger.Info("Main.ctor", "BEGIN");
 			graphics = new GraphicsDeviceManager(this);
 			base.Content.RootDirectory = "Content";
+			TempRealtimeLogger.Info("Main.ctor", "END RootDirectory=" + base.Content.RootDirectory);
 		}
 
 		protected void SetTitle()
@@ -3896,6 +3898,7 @@ namespace Terraria
 
 		protected override void Initialize()
 		{
+			TempRealtimeLogger.Info("Main.Initialize", "BEGIN");
 			Chest.Initialize();
 			Wiring.Initialize();
 			Framing.Initialize();
@@ -5781,10 +5784,12 @@ namespace Terraria
 			}
 			fpsTimer.Start();
 			updateTimer.Start();
+			TempRealtimeLogger.Info("Main.Initialize", "END");
 		}
 
 		protected override void LoadContent()
 		{
+			TempRealtimeLogger.Info("Main.LoadContent", "BEGIN");
 			try
 			{
 				mapSectionTexture = new RenderTarget2D(base.GraphicsDevice, 200, 150);
@@ -6203,10 +6208,12 @@ namespace Terraria
 			fontCombatText[1] = base.Content.Load<SpriteFont>("Fonts" + Path.DirectorySeparatorChar + "Combat_Crit");
 			Mount.Initialize();
 			Minecart.Initialize();
+			TempRealtimeLogger.Info("Main.LoadContent", "END");
 		}
 
 		protected override void UnloadContent()
 		{
+			TempRealtimeLogger.Info("Main.UnloadContent", "called");
 		}
 
 		public static void stopMoonEvent()
@@ -9118,6 +9125,7 @@ namespace Terraria
 
 		protected override void Update(GameTime gameTime)
 		{
+			TempRealtimeLogger.Info("Main.Update", "BEGIN gameMenu=" + gameMenu + ", netMode=" + netMode);
 			ignoreErrors = true;
 			gameInactive = !base.IsActive;
 			if (netMode == 2)
@@ -37650,10 +37658,12 @@ namespace Terraria
 					spriteBatch.Draw(backgroundTexture[49], new Rectangle(bgStart + backgroundWidth[49] * num52, bgTop, backgroundWidth[49], backgroundHeight[49]), color6);
 				}
 			}
+			TempRealtimeLogger.Info("Main.Update", "END");
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
+			TempRealtimeLogger.Info("Main.Draw", "BEGIN gameMenu=" + gameMenu);
 			TimeLogger.NewDrawFrame();
 			if (!gameMenu)
 			{
@@ -41744,6 +41754,7 @@ namespace Terraria
 			catch
 			{
 			}
+			TempRealtimeLogger.Info("Main.Draw", "END");
 		}
 	}
 }

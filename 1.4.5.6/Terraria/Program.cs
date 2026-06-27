@@ -177,6 +177,7 @@ public static class Program
 
 	public static void LaunchGame(string[] args, bool monoArgs = false)
 	{
+		TempRealtimeLogger.Info("Program.LaunchGame", "BEGIN args=" + (args == null ? "<null>" : string.Join(" ", args)) + ", monoArgs=" + monoArgs);
 		Thread.CurrentThread.Name = "Main Thread";
 		Thread.CurrentThread.Priority = ThreadPriority.Highest;
 		if (monoArgs)
@@ -184,25 +185,36 @@ public static class Program
 			args = Utils.ConvertMonoArgsToDotNet(args);
 		}
 		LogFNANativeLibVersions();
+		TempRealtimeLogger.Info("Program.LaunchGame", "After LogFNANativeLibVersions");
 		LaunchParameters = Utils.ParseArguements(args);
+		TempRealtimeLogger.Info("Program.LaunchGame", "Parsed launch parameters count=" + LaunchParameters.Count);
 		SavePath = (LaunchParameters.ContainsKey("-savedirectory") ? LaunchParameters["-savedirectory"] : Platform.Get<IPathService>().GetStoragePath("Terraria"));
+		TempRealtimeLogger.Info("Program.LaunchGame", "SavePath=" + SavePath);
 		ThreadPool.SetMinThreads(8, 8);
+		TempRealtimeLogger.Info("Program.LaunchGame", "ThreadPool min threads set");
 		InitializeConsoleOutput();
+		TempRealtimeLogger.Info("Program.LaunchGame", "Console output initialized");
 		SetupLogging();
+		TempRealtimeLogger.Info("Program.LaunchGame", "SetupLogging complete");
 		AppDomain.CurrentDomain.UnhandledException += delegate(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.ExceptionObject is Exception e2)
 			{
+				TempRealtimeLogger.Error("AppDomain.UnhandledException", e2);
 				SaveException(e2);
 			}
 		};
 		Platform.Get<IWindowService>().SetQuickEditEnabled(false);
+		TempRealtimeLogger.Info("Program.LaunchGame", "QuickEdit disabled, entering RunGame");
 		RunGame();
+		TempRealtimeLogger.Info("Program.LaunchGame", "END RunGame returned");
 	}
 
 	public static void RunGame()
 	{
+		TempRealtimeLogger.Info("Program.RunGame", "BEGIN");
 		LanguageManager.Instance.SetLanguage(GameCulture.DefaultCulture);
+		TempRealtimeLogger.Info("Program.RunGame", "Language set");
 		if (Platform.IsOSX)
 		{
 			Main.OnEngineLoad += delegate
@@ -228,11 +240,20 @@ public static class Program
 				}
 			};
 		}
+		TempRealtimeLogger.Info("Program.RunGame", "Before new Main");
 		Main main = new Main();
+		TempRealtimeLogger.Info("Program.RunGame", "Main constructed");
+		TempRealtimeLogger.Info("Program.RunGame", "Before Lang.InitializeLegacyLocalization");
 		Lang.InitializeLegacyLocalization();
+		TempRealtimeLogger.Info("Program.RunGame", "After Lang.InitializeLegacyLocalization");
+		TempRealtimeLogger.Info("Program.RunGame", "Before SocialAPI.Initialize");
 		SocialAPI.Initialize();
+		TempRealtimeLogger.Info("Program.RunGame", "After SocialAPI.Initialize");
+		TempRealtimeLogger.Info("Program.RunGame", "Before LaunchInitializer.LoadParameters");
 		LaunchInitializer.LoadParameters(main);
+		TempRealtimeLogger.Info("Program.RunGame", "After LaunchInitializer.LoadParameters dedServ=" + Main.dedServ);
 		Main.OnEnginePreload += StartForceLoad;
+		TempRealtimeLogger.Info("Program.RunGame", "OnEnginePreload hooked");
 		GC.Collect();
 		GC.WaitForPendingFinalizers();
 		GC.Collect();
@@ -240,17 +261,23 @@ public static class Program
 		{
 			try
 			{
+				TempRealtimeLogger.Info("Program.RunGame", "Before main.DedServ");
 				main.DedServ();
+				TempRealtimeLogger.Info("Program.RunGame", "After main.DedServ");
 			}
 			catch (Exception e)
 			{
+				TempRealtimeLogger.Error("Program.RunGame.DedServ", e);
 				DisplayException(e);
 			}
 		}
 		else
 		{
+			TempRealtimeLogger.Info("Program.RunGame", "Before main.Run");
 			main.Run();
+			TempRealtimeLogger.Info("Program.RunGame", "After main.Run");
 		}
+		TempRealtimeLogger.Info("Program.RunGame", "END");
 	}
 
 	private static void LogFNANativeLibVersions()
@@ -286,6 +313,7 @@ public static class Program
 
 	private static void DisplayException(Exception e)
 	{
+		TempRealtimeLogger.Error("Program.DisplayException", e);
 		SaveException(e);
 		try
 		{

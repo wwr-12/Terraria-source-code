@@ -6341,16 +6341,21 @@ public class Main : Game
 
 	public Main()
 	{
+		TempRealtimeLogger.Info("Main.ctor", "BEGIN dedServ=" + dedServ);
 		instance = this;
 		UnpausedUpdateSeed = (ulong)Guid.NewGuid().GetHashCode();
 		base.Exiting += Main_Exiting;
+		TempRealtimeLogger.Info("Main.ctor", "Exiting handler attached");
 		if (!dedServ)
 		{
+			TempRealtimeLogger.Info("Main.ctor", "Before client graphics initialization");
 			Map = new WorldMap(maxTilesX, maxTilesY);
 			Configuration.Load();
 			graphics = new GraphicsDeviceManager(this as Game);
 			base.Content.RootDirectory = "Content";
+			TempRealtimeLogger.Info("Main.ctor", "After client graphics initialization RootDirectory=" + base.Content.RootDirectory);
 		}
+		TempRealtimeLogger.Info("Main.ctor", "END");
 	}
 
 	private static void SetDisplayMonitor()
@@ -6440,6 +6445,7 @@ public class Main : Game
 
 	protected override void Initialize()
 	{
+		TempRealtimeLogger.Info("Main.Initialize", "BEGIN");
 		musicFade[50] = 1f;
 		if (dedServ)
 		{
@@ -6488,12 +6494,20 @@ public class Main : Game
 		BindSettingsTo(Configuration);
 		if (dedServ)
 		{
+			TempRealtimeLogger.Info("Main.Initialize", "Dedicated server Initialize_AlmostEverything then return");
 			Initialize_AlmostEverything();
+			TempRealtimeLogger.Info("Main.Initialize", "END dedicated server");
 			return;
 		}
+		TempRealtimeLogger.Info("Main.Initialize", "Before LoadContent_TryEnteringHiDef");
 		LoadContent_TryEnteringHiDef();
+		TempRealtimeLogger.Info("Main.Initialize", "After LoadContent_TryEnteringHiDef");
+		TempRealtimeLogger.Info("Main.Initialize", "Before ClientInitialize");
 		ClientInitialize();
+		TempRealtimeLogger.Info("Main.Initialize", "After ClientInitialize");
+		TempRealtimeLogger.Info("Main.Initialize", "Before base.Initialize");
 		base.Initialize();
+		TempRealtimeLogger.Info("Main.Initialize", "END");
 	}
 
 	private void BindSettingsTo(Preferences preferences)
@@ -10712,6 +10726,7 @@ public class Main : Game
 
 	protected override void LoadContent()
 	{
+		TempRealtimeLogger.Info("Main.LoadContent", "BEGIN");
 		//IL_0034: Unknown result type (might be due to invalid IL or missing references)
 		//IL_003e: Expected O, but got Unknown
 		//IL_0050: Unknown result type (might be due to invalid IL or missing references)
@@ -10765,6 +10780,7 @@ public class Main : Game
 		{
 			Assets.EnableAssetWatcher();
 		}
+		TempRealtimeLogger.Info("Main.LoadContent", "END");
 	}
 
 	private void LoadContent_Shaders()
@@ -10864,6 +10880,7 @@ public class Main : Game
 
 	protected override void UnloadContent()
 	{
+		TempRealtimeLogger.Info("Main.UnloadContent", "called");
 	}
 
 	public static void CheckForMoonEventsStartingTemporarySeasons()
@@ -16757,28 +16774,49 @@ public class Main : Game
 
 	protected override void Update(GameTime gameTime)
 	{
-		if (!IsEnginePreloaded)
+		long tempLogFrame = TempRealtimeLogger.BeginUpdate();
+		try
 		{
-			IsEnginePreloaded = true;
-			if (Main.OnEnginePreload != null)
+			if (!IsEnginePreloaded)
 			{
-				Main.OnEnginePreload();
+				TempRealtimeLogger.Info("Main.Update", "Engine preload BEGIN updateFrame=" + tempLogFrame);
+				IsEnginePreloaded = true;
+				if (Main.OnEnginePreload != null)
+				{
+					Main.OnEnginePreload();
+				}
+				TempRealtimeLogger.Info("Main.Update", "Engine preload END updateFrame=" + tempLogFrame);
+			}
+			if (!_isDrawingOrUpdating)
+			{
+				_isDrawingOrUpdating = true;
+				DetailedFPS.Begin(DetailedFPS.OperationCategory.Update);
+				TempRealtimeLogger.Info("Main.Update", "Before DoUpdate updateFrame=" + tempLogFrame);
+				DoUpdate(ref gameTime);
+				TempRealtimeLogger.Info("Main.Update", "After DoUpdate updateFrame=" + tempLogFrame + ", gameMenu=" + gameMenu + ", netMode=" + netMode);
+				CinematicManager.Instance.Update(gameTime);
+				TempRealtimeLogger.Info("Main.Update", "After CinematicManager updateFrame=" + tempLogFrame);
+				ConsumeAllMainThreadActions();
+				TempRealtimeLogger.Info("Main.Update", "After ConsumeAllMainThreadActions updateFrame=" + tempLogFrame);
+				DetailedFPS.End();
+				_isDrawingOrUpdating = false;
+			}
+			base.Update(gameTime);
+			TempRealtimeLogger.Info("Main.Update", "After base.Update updateFrame=" + tempLogFrame);
+			if (GameAskedToQuit)
+			{
+				TempRealtimeLogger.Info("Main.Update", "GameAskedToQuit updateFrame=" + tempLogFrame);
+				QuitGame();
 			}
 		}
-		if (!_isDrawingOrUpdating)
+		catch (Exception ex)
 		{
-			_isDrawingOrUpdating = true;
-			DetailedFPS.Begin(DetailedFPS.OperationCategory.Update);
-			DoUpdate(ref gameTime);
-			CinematicManager.Instance.Update(gameTime);
-			ConsumeAllMainThreadActions();
-			DetailedFPS.End();
-			_isDrawingOrUpdating = false;
+			TempRealtimeLogger.Error("Main.Update", ex);
+			throw;
 		}
-		base.Update(gameTime);
-		if (GameAskedToQuit)
+		finally
 		{
-			QuitGame();
+			TempRealtimeLogger.EndUpdate(tempLogFrame);
 		}
 	}
 
@@ -16811,14 +16849,17 @@ public class Main : Game
 
 	protected void DoUpdate(ref GameTime gameTime)
 	{
+		TempRealtimeLogger.Info("Main.DoUpdate", "BEGIN showSplash=" + showSplash + ", gameMenu=" + gameMenu + ", netMode=" + netMode);
 		gameTimeCache = gameTime;
 		if (showSplash)
 		{
+			TempRealtimeLogger.Info("Main.DoUpdate", "Splash update path");
 			FocusHelper.UpdateFocus(out var _);
 			UpdateAudio();
 			GlobalTimeWrappedHourly = (float)(gameTime.TotalGameTime.TotalSeconds % 3600.0);
 			ChromaInitializer.UpdateEvents();
 			Chroma.Update(GlobalTimeWrappedHourly);
+			TempRealtimeLogger.Info("Main.DoUpdate", "END splash update path");
 			return;
 		}
 		PartySky.MultipleSkyWorkaroundFix = true;
@@ -17121,9 +17162,12 @@ public class Main : Game
 				mouseRightRelease = false;
 				if (gameMenu)
 				{
+					TempRealtimeLogger.Info("Main.DoUpdate", "Before UpdateMenu paused path");
 					UpdateMenu();
+					TempRealtimeLogger.Info("Main.DoUpdate", "After UpdateMenu paused path");
 				}
 				gamePaused = true;
+				TempRealtimeLogger.Info("Main.DoUpdate", "END paused path");
 				return;
 			}
 			SkyManager.Instance.Update(gameTime);
@@ -44401,10 +44445,12 @@ public class Main : Game
 
 	protected void DrawInterface(GameTime gameTime)
 	{
+		TempRealtimeLogger.Info("Main.DrawInterface", "BEGIN needSetup=" + _needToSetupDrawInterfaceLayers);
 		_drawInterfaceGameTime = gameTime;
 		if (_needToSetupDrawInterfaceLayers)
 		{
 			SetupDrawInterfaceLayers();
+			TempRealtimeLogger.Info("Main.DrawInterface", "After SetupDrawInterfaceLayers count=" + (_gameInterfaceLayers == null ? -1 : _gameInterfaceLayers.Count));
 		}
 		using (List<GameInterfaceLayer>.Enumerator enumerator = _gameInterfaceLayers.GetEnumerator())
 		{
@@ -44412,6 +44458,7 @@ public class Main : Game
 			{
 			}
 		}
+		TempRealtimeLogger.Info("Main.DrawInterface", "After interface layers");
 		CoinSlot.UpdateSlotAnims();
 		PlayerInput.SetZoom_UI();
 		spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, UIScaleMatrix);
@@ -44420,6 +44467,7 @@ public class Main : Game
 		cursorOverride = -1;
 		DebugLineDraw.UI.Draw(spriteBatch);
 		PlayerInput.SetZoom_World();
+		TempRealtimeLogger.Info("Main.DrawInterface", "END");
 	}
 
 	private static void DrawWallOfCopperShortswords()
@@ -47265,18 +47313,26 @@ public class Main : Game
 
 	protected void QuitGame()
 	{
+		TempRealtimeLogger.Info("Main.QuitGame", "BEGIN");
 		SaveSettings();
+		TempRealtimeLogger.Info("Main.QuitGame", "After SaveSettings");
 		if (!dedServ)
 		{
+			TempRealtimeLogger.Info("Main.QuitGame", "Before SocialAPI.Shutdown");
 			SocialAPI.Shutdown();
+			TempRealtimeLogger.Info("Main.QuitGame", "After SocialAPI.Shutdown");
 		}
 		Assets.TransferCompletedAssets();
+		TempRealtimeLogger.Info("Main.QuitGame", "Before Exit");
 		Exit();
+		TempRealtimeLogger.Info("Main.QuitGame", "END");
 	}
 
 	private void Main_Exiting(object sender, EventArgs e)
 	{
+		TempRealtimeLogger.Info("Main.Main_Exiting", "BEGIN");
 		TryDisposingEverything();
+		TempRealtimeLogger.Info("Main.Main_Exiting", "END");
 	}
 
 	private static void TryDisposingEverything()
@@ -61123,19 +61179,42 @@ public class Main : Game
 
 	protected override void Draw(GameTime gameTime)
 	{
-		if (!_isDrawingOrUpdating && IsGraphicsDeviceAvailable)
+		long tempLogFrame = TempRealtimeLogger.BeginDraw();
+		try
 		{
-			_isDrawingOrUpdating = true;
-			DetailedFPS.Begin(DetailedFPS.OperationCategory.Draw);
-			EnsureRenderTargetContent();
-			DoDraw(gameTime);
-			if (Main.OnPostDraw != null)
+			if (!_isDrawingOrUpdating && IsGraphicsDeviceAvailable)
 			{
-				Main.OnPostDraw(gameTime);
+				_isDrawingOrUpdating = true;
+				DetailedFPS.Begin(DetailedFPS.OperationCategory.Draw);
+				TempRealtimeLogger.Info("Main.Draw", "Before EnsureRenderTargetContent drawFrame=" + tempLogFrame);
+				EnsureRenderTargetContent();
+				TempRealtimeLogger.Info("Main.Draw", "Before DoDraw drawFrame=" + tempLogFrame);
+				DoDraw(gameTime);
+				TempRealtimeLogger.Info("Main.Draw", "After DoDraw drawFrame=" + tempLogFrame);
+				if (Main.OnPostDraw != null)
+				{
+					TempRealtimeLogger.Info("Main.Draw", "Before OnPostDraw drawFrame=" + tempLogFrame);
+					Main.OnPostDraw(gameTime);
+					TempRealtimeLogger.Info("Main.Draw", "After OnPostDraw drawFrame=" + tempLogFrame);
+				}
+				Assets.TransferCompletedAssets();
+				TempRealtimeLogger.Info("Main.Draw", "After Assets.TransferCompletedAssets drawFrame=" + tempLogFrame);
+				DetailedFPS.End();
+				_isDrawingOrUpdating = false;
 			}
-			Assets.TransferCompletedAssets();
-			DetailedFPS.End();
-			_isDrawingOrUpdating = false;
+			else
+			{
+				TempRealtimeLogger.Info("Main.Draw", "Skipped drawFrame=" + tempLogFrame + ", isDrawingOrUpdating=" + _isDrawingOrUpdating + ", graphicsAvailable=" + IsGraphicsDeviceAvailable);
+			}
+		}
+		catch (Exception ex)
+		{
+			TempRealtimeLogger.Error("Main.Draw", ex);
+			throw;
+		}
+		finally
+		{
+			TempRealtimeLogger.EndDraw(tempLogFrame);
 		}
 	}
 
@@ -61186,11 +61265,14 @@ public class Main : Game
 
 	private void DoDraw(GameTime gameTime)
 	{
+		TempRealtimeLogger.Info("Main.DoDraw", "BEGIN showSplash=" + showSplash + ", gameMenu=" + gameMenu + ", netMode=" + netMode);
 		if (showSplash)
 		{
+			TempRealtimeLogger.Info("Main.DoDraw", "Splash draw path BEGIN");
 			TimeLogger.StartTimestamp fromTimestamp = TimeLogger.Start();
 			DrawSplash(gameTime);
 			TimeLogger.SplashDrawTime.AddTime(fromTimestamp);
+			TempRealtimeLogger.Info("Main.DoDraw", "Splash draw path END");
 			return;
 		}
 		TimeLogger.StartTimestamp fromTimestamp2 = TimeLogger.Start();
@@ -61254,7 +61336,9 @@ public class Main : Game
 			UpdateDisplaySettings();
 			if (Main.OnPreDraw != null)
 			{
+				TempRealtimeLogger.Info("Main.DoDraw", "Before OnPreDraw");
 				Main.OnPreDraw(gameTime);
+				TempRealtimeLogger.Info("Main.DoDraw", "After OnPreDraw");
 			}
 		}
 		drawsCountedForFPS++;
@@ -61917,16 +62001,21 @@ public class Main : Game
 				{
 					try
 					{
+						TempRealtimeLogger.Info("Main.DoDraw", "Before DrawInterface try path");
 						DrawInterface(gameTime);
+						TempRealtimeLogger.Info("Main.DoDraw", "After DrawInterface try path");
 					}
 					catch (Exception e3)
 					{
+						TempRealtimeLogger.Error("Main.DoDraw.DrawInterface", e3);
 						TimeLogger.DrawException(e3);
 					}
 				}
 				else
 				{
+					TempRealtimeLogger.Info("Main.DoDraw", "Before DrawInterface normal path");
 					DrawInterface(gameTime);
+					TempRealtimeLogger.Info("Main.DoDraw", "After DrawInterface normal path");
 				}
 			}
 			TimeLogger.Interface.AddTime(fromTimestamp12);

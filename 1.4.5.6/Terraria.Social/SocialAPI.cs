@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using ReLogic.OS;
 using Terraria.Social.Base;
-using Terraria.Social.Steam;
-using Terraria.Social.WeGame;
+// GOG-only: Steam and WeGame modules excluded
+// using Terraria.Social.Steam;
+// using Terraria.Social.WeGame;
 
 namespace Terraria.Social;
 
@@ -44,12 +45,15 @@ public static class SocialAPI
 		Main.OnTickForInternalCodeOnly += JoinRequests.Update;
 		switch (Mode)
 		{
+		// GOG-only: Steam/WeGame modules excluded, only SocialMode.None is supported
+		/*
 		case SocialMode.Steam:
 			LoadSteam();
 			break;
 		case SocialMode.WeGame:
 			LoadWeGame();
 			break;
+		*/
 		}
 		foreach (ISocialModule module in _modules)
 		{
@@ -87,6 +91,7 @@ public static class SocialAPI
 		}
 	}
 
+	/*
 	private static void LoadSteam()
 	{
 		LoadModule<Terraria.Social.Steam.CoreSocialModule>();
@@ -123,4 +128,5 @@ public static class SocialAPI
 		}
 		WeGameHelper.WriteDebugString("LoadWeGame modules");
 	}
+	*/
 }

@@ -464,11 +464,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\fby\\qq\\Terraria.csproj",
+      "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\fby\\tl1\\1.2.4.1\\Terraria.csproj",
       "projectName": "Terraria",
-      "projectPath": "C:\\Users\\Administrator\\Desktop\\fby\\qq\\Terraria.csproj",
+      "projectPath": "C:\\Users\\Administrator\\Desktop\\fby\\tl1\\1.2.4.1\\Terraria.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\Desktop\\fby\\qq\\obj\\",
+      "outputPath": "C:\\Users\\Administrator\\Desktop\\fby\\tl1\\1.2.4.1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
